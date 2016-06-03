@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="msg.css"/>
+		<title>demo</title>
+		<script type="text/javascript">
+			window.onload = function(){
+				(function(){
+					var body = document.body;
+					var msg_box = document.createElement("div");
+					msg_box.id = "msg_box";
+					msg_box.style.cssText = "display:none;";
+					msg_box.innerHTML = "<div id='msg_head'>提示</div>"+
+								"<div id='msg_body'></div>";
+					body.appendChild(msg_box);
+					Msg = {
+						alert:function(msg){
+							var btn1 = document.createElement("button");
+							var msg_body = document.getElementById("msg_body");
+							btn1.id = "confirm";
+							btn1.innerHTML = "确认";
+							msg_box.style.display = "block";	
+							msg_body.innerHTML = msg;
+							msg_body.appendChild(btn1);
+							var confirm = document.getElementById("confirm");
+						    confirm.addEventListener("click",function(){
+								msg_box.style.display = "none";
+							});
+						},
+						confirm:function(msg,fn){
+							fn = fn || {};
+							var con_div = document.createElement("div");
+							con_div.id = "btn-groups";
+							con_div.innerHTML = "<button id='conf'>确认</button>" +
+												 "<button id='cancel'>取消</button>";
+							msg_box.style.display = "block";
+							msg_body.innerHTML = msg;
+							msg_body.appendChild(con_div);
+							var conf = document.getElementById("conf");
+							var cancel = document.getElementById("cancel");
+							conf.addEventListener("click",function(){
+								msg_box.style.display = "none";
+								if(fn && typeof(fn) == "function"){
+									fn(true);
+								}
+							});
+							cancel.addEventListener("click",function(){
+								msg_box.style.display = "none";
+								if(fn && typeof(fn) == "function"){
+									fn(false);
+								}
+							});
+						}
+					};
+				})();
+				var test = Msg.confirm("are you sure?",function(res){
+					if(res){
+						Msg.alert("you choose yes");
+					}else{
+						Msg.alert("you choose no");
+					}
+				});
+//				if(Msg.confirm("are you sure?")){
+//					Msg.alert("OK");
+//				}else{
+//					Msg.alert("you choose false");
+//				}
+			};
+		</script>
+	</head>
+	<body>
+		<!--<div id="msg_box">
+			<div id="msg_head">提示</div>
+			<div id="msg_body">数据有误！
+				<div id="btn-groups">
+					<button id="conf">确认</button>
+					<button id="cancel">取消</button>
+				</div>
+			</div>
+		</div>-->
+	</body>
+</html>
